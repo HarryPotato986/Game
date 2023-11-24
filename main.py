@@ -1,5 +1,6 @@
 import pygame
 from classes.BaseObject import BaseObject
+from classes.Character import Character
 
 pygame.init()
 screen = pygame.display.set_mode((1200, 900), pygame.SCALED)
@@ -8,8 +9,11 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
+character = Character(screen, "red", 600, 450, 20, 40)
+testRect = BaseObject(screen, "green", 200, 200, 100, 100)
+testRect2 = BaseObject(screen, "blue", 750, 500, 80, 200)
+testRect3 = BaseObject(screen, "yellow", 200, 700, 50, 50)
 
-testRect = BaseObject(screen, "red", 600, 450, 20, 40)
 
 while running:
     for event in pygame.event.get():
@@ -18,18 +22,14 @@ while running:
 
     screen.fill("black")
 
+    character.draw()
     testRect.draw()
+    testRect2.draw()
+    testRect3.draw()
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        testRect.y -= 300 * dt
-    if keys[pygame.K_s]:
-        testRect.y += 300 * dt
-    if keys[pygame.K_a]:
-        testRect.x -= 300 * dt
-    if keys[pygame.K_d]:
-        testRect.x += 300 * dt
-    testRect.updateRect()
+    character.movement(keys, dt)
+
 
     pygame.display.flip()
 
