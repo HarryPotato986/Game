@@ -2,11 +2,11 @@ import pygame
 from classes.CollisionBox import CollisionBox
 
 class BaseObject:
-    def __init__(self, surface, colour, x, y, width, height):
+    def __init__(self, surface, x, y, width, height, asset="red"):
         self.surface = surface
-        self.colour = colour
+        self.asset = asset
         self.collisionBox = CollisionBox(x, y, width, height)
 
 
     def draw(self):
-        pygame.draw.rect(self.surface, self.colour, self.collisionBox.baseRect)
+        pygame.draw.rect(self.surface, self.asset, self.collisionBox.baseRect)

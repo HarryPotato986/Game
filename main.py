@@ -9,10 +9,14 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
-character = Character(screen, "red", 600, 450, 20, 40)
-testRect = BaseObject(screen, "green", 200, 200, 100, 100)
-testRect2 = BaseObject(screen, "blue", 750, 500, 80, 200)
-testRect3 = BaseObject(screen, "yellow", 200, 700, 50, 50)
+characterAssets = ["filler.png", "right profile.png", "left profile.png", "front profile.png",
+                   ["filler.png", "filler.png"], ["right profile walk.png", "filler.png"],
+                   ["filler.png", "left profile walk.png"], ["front profile left walk.png", "front profile right walk.png"]]
+
+character = Character(screen, 600, 450, "assets/character_textures", characterAssets, 0.5)
+testRect = BaseObject(screen, 200, 200, 100, 100, "green")
+testRect2 = BaseObject(screen, 750, 500, 80, 200, "blue")
+testRect3 = BaseObject(screen, 200, 700, 50, 50, "yellow")
 
 
 while running:
