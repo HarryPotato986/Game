@@ -16,7 +16,10 @@ class Character(BaseObject):
     def draw(self):
         self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
 
-    def movement(self, keys, dt):
+    def inputHandler(self, keys, dt):
+        self.__movement(keys, dt)
+
+    def __movement(self, keys, dt):
         if keys[pygame.K_w]:
             self.collisionBox.baseRect.y -= 300 * dt
             if self.activeTexture not in self.textureHandler.walkUp:
@@ -104,3 +107,6 @@ class Character(BaseObject):
                     characterRect.left = otherBox.baseRect.right
                 if abs(otherBox.baseRect.left - characterRect.right) < collisionTolerance:
                     characterRect.right = otherBox.baseRect.left
+
+    def __attack(self, keys):
+        pass

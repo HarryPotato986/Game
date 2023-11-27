@@ -32,7 +32,7 @@ while running:
     testRect3.draw()
 
     keys = pygame.key.get_pressed()
-    character.movement(keys, dt)
+    character.inputHandler(keys, dt)
 
 
     pygame.display.flip()
