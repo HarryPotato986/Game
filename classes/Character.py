@@ -1,3 +1,5 @@
+import math
+
 import pygame
 from classes.BaseObject import BaseObject
 from classes.CollisionBox import CollisionBox
@@ -6,21 +8,34 @@ from classes.CharacterTextureHandler import CharacterTextureHandler
 
 class Character(BaseObject):
 
-    def __init__(self, surface, x, y, resourceLocation, textures, scale):
+    def __init__(self, surface, x, y, resourceLocation, textures, scale, weapon):
         self.textureHandler = CharacterTextureHandler(resourceLocation, textures[0], textures[1], textures[2], textures[3], textures[4], textures[5], textures[6], textures[7], scale)
         super().__init__(surface, x, y, self.textureHandler.idleDown.get_width(), self.textureHandler.idleDown.get_height())
         self.activeTexture = self.textureHandler.idleDown
         self.walkAnimationTimer = 15
+        self.weapon = weapon
+        self.facing = 'D'
 
 
     def draw(self):
         self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
+        for i in range(-45, 50, 5):
+            if self.facing == 'U':
+                i += 90
+            elif self.facing == 'D':
+                i += 270
+            elif self.facing == 'L':
+                i += 180
+            pygame.draw.line(self.surface, "red", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
+                             (self.collisionBox.baseRect.centerx+(self.weapon.weaponRange * math.cos(math.radians(i))),
+                              self.collisionBox.baseRect.centery-(self.weapon.weaponRange * math.sin(math.radians(i)))))
 
     def inputHandler(self, keys, dt):
         self.__movement(keys, dt)
 
     def __movement(self, keys, dt):
         if keys[pygame.K_w]:
+            self.facing = 'U'
             self.collisionBox.baseRect.y -= 300 * dt
             if self.activeTexture not in self.textureHandler.walkUp:
                 self.activeTexture = self.textureHandler.walkUp[0]
@@ -34,6 +49,7 @@ class Character(BaseObject):
             else:
                 self.walkAnimationTimer -=1
         if keys[pygame.K_s]:
+            self.facing = 'D'
             self.collisionBox.baseRect.y += 300 * dt
             if self.activeTexture not in self.textureHandler.walkDown:
                 self.activeTexture = self.textureHandler.walkDown[0]
@@ -47,6 +63,7 @@ class Character(BaseObject):
             else:
                 self.walkAnimationTimer -=1
         if keys[pygame.K_a]:
+            self.facing = 'L'
             self.collisionBox.baseRect.x -= 300 * dt
             if self.activeTexture not in self.textureHandler.walkLeft and not keys[pygame.K_w] and not keys[pygame.K_s]:
                 self.activeTexture = self.textureHandler.walkLeft[0]
@@ -60,6 +77,7 @@ class Character(BaseObject):
             else:
                 self.walkAnimationTimer -=1
         if keys[pygame.K_d]:
+            self.facing = 'R'
             self.collisionBox.baseRect.x += 300 * dt
             if self.activeTexture not in self.textureHandler.walkRight and not keys[pygame.K_w] and not keys[pygame.K_s]:
                 self.activeTexture = self.textureHandler.walkRight[0]
@@ -108,5 +126,6 @@ class Character(BaseObject):
                 if abs(otherBox.baseRect.left - characterRect.right) < collisionTolerance:
                     characterRect.right = otherBox.baseRect.left
 
-    def __attack(self, keys):
-        pass
+    def attack(self, event):
+        if event.key == pygame.K_e:
+            self.weapon.attack(self.collisionBox, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
