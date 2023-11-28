@@ -18,7 +18,6 @@ class Character(BaseObject):
 
 
     def draw(self):
-        self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
         for i in range(-45, 50, 5):
             if self.facing == 'U':
                 i += 90
@@ -29,6 +28,7 @@ class Character(BaseObject):
             pygame.draw.line(self.surface, "red", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
                              (self.collisionBox.baseRect.centerx+(self.weapon.weaponRange * math.cos(math.radians(i))),
                               self.collisionBox.baseRect.centery-(self.weapon.weaponRange * math.sin(math.radians(i)))))
+        self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
 
     def inputHandler(self, keys, dt):
         self.__movement(keys, dt)
