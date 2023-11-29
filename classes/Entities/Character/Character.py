@@ -1,21 +1,15 @@
 import math
 
 import pygame
-from classes.BaseObject import BaseObject
 from classes.CollisionBox import CollisionBox
-from classes.CharacterTextureHandler import CharacterTextureHandler
+from classes.Entities.BaseEntity import BaseEntity
 from classes.WeaponItem import WeaponItem
 
 
-class Character(BaseObject):
+class Character(BaseEntity):
 
-    def __init__(self, surface, x, y, resourceLocation, textures, scale, weapon):
-        self.textureHandler = CharacterTextureHandler(resourceLocation, textures[0], textures[1], textures[2], textures[3], textures[4], textures[5], textures[6], textures[7], scale)
-        super().__init__(surface, x, y, self.textureHandler.idleDown.get_width(), self.textureHandler.idleDown.get_height())
-        self.activeTexture = self.textureHandler.idleDown
-        self.walkAnimationTimer = 15
-        self.weapon = weapon
-        self.facing = 'D'
+    def __init__(self, surface, x, y, resourceLocation, textures, scale, name, weapon):
+        super().__init__(surface, x, y, resourceLocation, textures, scale, name, weapon)
 
 
     def draw(self):

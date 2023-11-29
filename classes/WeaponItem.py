@@ -4,12 +4,13 @@ import math
 
 from classes.CollisionBox import CollisionBox
 from classes.BaseItem import BaseItem
+from classes.Entities.BaseEntity import BaseEntity
 
 
 class WeaponItem(BaseItem):
 
     def __init__(self, ResourceLocation, texture, itemName, damage, weaponRange):
-        #super().__init__(ResourceLocation, texture, itemName)
+        super().__init__(ResourceLocation, texture, itemName)
         self.damage = damage
         self.weaponRange = weaponRange
 
@@ -27,7 +28,10 @@ class WeaponItem(BaseItem):
                         i += 180
                     if boxs.baseRect.clipline(userX, userY, userX+(self.weaponRange * math.cos(math.radians(i))), userY-(self.weaponRange * math.sin(math.radians(i)))) and boxs.baseRect not in hits:
                         hits.append(boxs.baseRect)
-                        print("hit")
+                        if isinstance(boxs.boxOf, BaseEntity):
+                            boxs.boxOf.hit()
+                        else:
+                            print("hit")
 
 
 

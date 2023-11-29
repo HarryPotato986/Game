@@ -1,6 +1,6 @@
 import pygame
 
-class CharacterTextureHandler:
+class EntityTextureHandler:
 
     def __init__(self, resourceLocation, idleUp, idleRight, idleLeft, idleDown, walkingUp, walkingRight, walkingLeft, walkingDown, scale):
         self.idleUp = pygame.image.load(resourceLocation + "/" + idleUp)
