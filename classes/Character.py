@@ -4,6 +4,7 @@ import pygame
 from classes.BaseObject import BaseObject
 from classes.CollisionBox import CollisionBox
 from classes.CharacterTextureHandler import CharacterTextureHandler
+from classes.WeaponItem import WeaponItem
 
 
 class Character(BaseObject):
@@ -128,4 +129,5 @@ class Character(BaseObject):
 
     def attack(self, event):
         if event.key == pygame.K_e:
-            self.weapon.attack(self.collisionBox, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
+            if isinstance(self.weapon, WeaponItem):
+                self.weapon.attack(self.collisionBox, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
