@@ -1,8 +1,9 @@
 import pygame
 
-import ItemInit
+from Init import ItemInit
 from classes.BaseObject import BaseObject
 from classes.Entities.Character.Character import Character
+from classes.Entities.Enemys.BaseEnemy import BaseEnemy
 
 pygame.init()
 screen = pygame.display.set_mode((1200, 900), pygame.SCALED)
@@ -12,8 +13,8 @@ running = True
 dt = 0
 
 characterAssets = ["back profile.png", "right profile.png", "left profile.png", "front profile.png",
-                   ["back profile left walk.png", "back profile right walk.png"], ["right profile walk.png", "right profile walk 2.png"],
-                   ["left profile walk 2.png", "left profile walk.png"], ["front profile left walk.png", "front profile right walk.png"]]
+                   ["back profile left walk.png", "back profile right walk.png"], ["right profile walk 1 (new).png", "right profile walk 2 (new).png"],
+                   ["left profile walk 2 (new).png", "left profile walk 1 (new).png"], ["front profile left walk.png", "front profile right walk.png"]]
 
 allFiller = ["filler.png", "filler.png", "filler.png", "filler.png",
              ["filler.png", "filler.png"], ["filler.png", "filler.png"],
@@ -24,6 +25,7 @@ testRect = BaseObject(screen, 200, 200, 100, 100, "green")
 testRect2 = BaseObject(screen, 750, 500, 80, 200, "blue")
 testRect3 = BaseObject(screen, 200, 700, 50, 50, "yellow")
 testRect4 = BaseObject(screen, 900, 200, 50, 50, 'purple')
+testEnemy = BaseEnemy(screen, 0, 0, "assets/character_textures", allFiller, 0.5, "test enemy", ItemInit.testSword)
 
 
 while running:
@@ -35,6 +37,7 @@ while running:
     testRect2.draw()
     testRect3.draw()
     testRect4.draw()
+    testEnemy.draw()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
