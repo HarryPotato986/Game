@@ -12,9 +12,9 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
-characterAssets = ["back profile.png", "right profile.png", "left profile.png", "front profile.png",
-                   ["back profile left walk.png", "back profile right walk.png"], ["right profile walk 1 (new).png", "right profile walk 2 (new).png"],
-                   ["left profile walk 2 (new).png", "left profile walk 1 (new).png"], ["front profile left walk.png", "front profile right walk.png"]]
+characterAssets = ["back profile.png", "right-profile-1-(new).png", "left-profile-1-(new).png", "front profile.png",
+                   ["back profile left walk.png", "back profile right walk.png"], ["right-profile-walk-1-(newer).png", "right-profile-walk-2-(newer).png"],
+                   ["left-profile-walk-2-(newer).png", "left-profile-walk-1-(newer).png"], ["front profile left walk.png", "front profile right walk.png"]]
 
 allFiller = ["filler.png", "filler.png", "filler.png", "filler.png",
              ["filler.png", "filler.png"], ["filler.png", "filler.png"],
@@ -25,7 +25,7 @@ testRect = BaseObject(screen, 200, 200, 100, 100, "green")
 testRect2 = BaseObject(screen, 750, 500, 80, 200, "blue")
 testRect3 = BaseObject(screen, 200, 700, 50, 50, "yellow")
 testRect4 = BaseObject(screen, 900, 200, 50, 50, 'purple')
-testEnemy = BaseEnemy(screen, 0, 0, "assets/character_textures", allFiller, 0.5, "test enemy", ItemInit.testSword)
+testEnemy = BaseEnemy(screen, 600, 50, "assets/character_textures", allFiller, 0.5, "test enemy", ItemInit.testSword)
 
 
 while running:
