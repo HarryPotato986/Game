@@ -9,10 +9,11 @@ from classes.Entities.BaseEntity import BaseEntity
 
 class WeaponItem(BaseItem):
 
-    def __init__(self, ResourceLocation, texture, itemName, damage, weaponRange):
+    def __init__(self, ResourceLocation, texture, itemName, damage, weaponRange, knockback):
         super().__init__(ResourceLocation, texture, itemName)
         self.damage = damage
         self.weaponRange = weaponRange
+        self.knockback = knockback
 
 
     def attack(self, userCollisionBox, userX, userY, facing):
@@ -29,7 +30,7 @@ class WeaponItem(BaseItem):
                     if boxs.baseRect.clipline(userX, userY, userX+(self.weaponRange * math.cos(math.radians(i))), userY-(self.weaponRange * math.sin(math.radians(i)))) and boxs.baseRect not in hits:
                         hits.append(boxs.baseRect)
                         if isinstance(boxs.boxOf, BaseEntity):
-                            boxs.boxOf.hit(facing)
+                            boxs.boxOf.hit(facing, self.knockback)
                         else:
                             print("hit")
 
