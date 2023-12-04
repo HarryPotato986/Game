@@ -32,12 +32,12 @@ while running:
 
     screen.fill("black")
 
-    character.draw()
     testRect.draw()
     testRect2.draw()
     testRect3.draw()
     testRect4.draw()
     testEnemy.draw()
+    character.draw()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

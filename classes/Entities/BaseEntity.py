@@ -1,3 +1,5 @@
+import pygame.transform
+
 from classes.BaseObject import BaseObject
 from classes.CollisionBox import CollisionBox
 from classes.Entities.EntityTextureHandler import EntityTextureHandler
@@ -10,15 +12,33 @@ class BaseEntity(BaseObject):
         super().__init__(surface, x, y, self.textureHandler.idleDown.get_width(), self.textureHandler.idleDown.get_height())
         self.activeTexture = self.textureHandler.idleDown
         self.walkAnimationTimer = 15
+        self.deathAnimationTimer = None
+        self.textureRotation = 0
         self.weapon = weapon
         self.facing = 'D'
         self.name = name
         self.maxHealth = maxHealth
         self.health = maxHealth
+        self.visible = True
 
 
     def draw(self):
-        self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
+        if self.deathAnimationTimer is not None:
+            if self.deathAnimationTimer > 225:
+                self.textureRotation -= 6
+                self.collisionBox.baseRect.y += 3
+                self.deathAnimationTimer -= 1
+            elif self.deathAnimationTimer > 0:
+                self.deathAnimationTimer -= 1
+            elif self.deathAnimationTimer == 0:
+                self.visible = False
+                self.deathAnimationTimer = None
+        if self.visible:
+            if self.textureRotation != 0:
+                tempTexture = pygame.transform.rotate(self.activeTexture.copy(), self.textureRotation)
+                self.surface.blit(tempTexture, self.collisionBox.baseRect)
+            else:
+                self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
 
     def hit(self, damage, facing, knockback):
         if facing == 'U':
@@ -35,7 +55,13 @@ class BaseEntity(BaseObject):
 
     def takeDamage(self, damage):
         self.health -= damage
+        if self.health <= 0:
+            self.die()
         print(self.health)
+
+    def die(self):
+        self.collisionBox.deactivate()
+        self.deathAnimationTimer = 240
 
     def checkCollisions(self, collisionTolerance):
         entityRect = self.collisionBox.baseRect
