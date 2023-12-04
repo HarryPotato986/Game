@@ -20,7 +20,7 @@ class BaseEntity(BaseObject):
     def draw(self):
         self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
 
-    def hit(self, facing, knockback):
+    def hit(self, damage, facing, knockback):
         if facing == 'U':
             self.collisionBox.baseRect.y -= knockback
         elif facing == 'D':
@@ -30,7 +30,12 @@ class BaseEntity(BaseObject):
         elif facing == 'R':
             self.collisionBox.baseRect.x += knockback
         self.checkCollisions(knockback+1)
+        self.takeDamage(damage)
         print(self.name + ": Hit!")
+
+    def takeDamage(self, damage):
+        self.health -= damage
+        print(self.health)
 
     def checkCollisions(self, collisionTolerance):
         entityRect = self.collisionBox.baseRect

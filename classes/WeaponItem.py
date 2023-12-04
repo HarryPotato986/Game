@@ -30,7 +30,7 @@ class WeaponItem(BaseItem):
                     if boxs.baseRect.clipline(userX, userY, userX+(self.weaponRange * math.cos(math.radians(i))), userY-(self.weaponRange * math.sin(math.radians(i)))) and boxs.baseRect not in hits:
                         hits.append(boxs.baseRect)
                         if isinstance(boxs.boxOf, BaseEntity):
-                            boxs.boxOf.hit(facing, self.knockback)
+                            boxs.boxOf.hit(self.damage, facing, self.knockback)
                         else:
                             print("hit")
 

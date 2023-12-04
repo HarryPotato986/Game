@@ -8,8 +8,8 @@ from classes.WeaponItem import WeaponItem
 
 class Character(BaseEntity):
 
-    def __init__(self, surface, x, y, resourceLocation, textures, scale, name, weapon):
-        super().__init__(surface, x, y, resourceLocation, textures, scale, name, weapon)
+    def __init__(self, surface, x, y, resourceLocation, textures, scale, name, weapon, maxHealth):
+        super().__init__(surface, x, y, resourceLocation, textures, scale, name, weapon, maxHealth)
 
 
     def draw(self):

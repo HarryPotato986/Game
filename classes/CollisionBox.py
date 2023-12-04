@@ -11,3 +11,10 @@ class CollisionBox:
         CollisionBox.activeBoxs.append(self)
 
 
+    def activate(self):
+        if self not in CollisionBox.activeBoxs:
+            CollisionBox.activeBoxs.append(self)
+
+    def deactivate(self):
+        if self in CollisionBox.activeBoxs:
+            CollisionBox.activeBoxs.remove(self)
