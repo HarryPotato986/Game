@@ -9,14 +9,20 @@ from classes.Entities.BaseEntity import BaseEntity
 
 class WeaponItem(BaseItem):
 
-    def __init__(self, ResourceLocation, texture, itemName, damage, weaponRange, knockback):
+    def __init__(self, ResourceLocation, texture, itemName, damage, weaponRange, knockback, weaponCooldown):
         super().__init__(ResourceLocation, texture, itemName)
         self.damage = damage
         self.weaponRange = weaponRange
         self.knockback = knockback
+        self.weaponCooldown = weaponCooldown
+        self.weaponCooldownTimer = 0
 
+
+    def ticker(self):
+        pass
 
     def attack(self, userCollisionBox, userX, userY, facing):
+
         hits = []
         for boxs in CollisionBox.activeBoxs:
             if boxs != userCollisionBox:
