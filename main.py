@@ -38,21 +38,20 @@ while running:
 
     screen.fill("black")
 
-    testRect.draw()
-    testRect2.draw()
-    testRect3.draw()
-    testRect4.draw()
-    testEnemy.draw()
-    character.draw()
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
             character.attack(event)
 
+    testRect.draw()
+    testRect2.draw()
+    testRect3.draw()
+    testRect4.draw()
+    testEnemy.draw()
+
     keys = pygame.key.get_pressed()
-    character.inputHandler(keys, dt)
+    character.ticker(keys, dt)
 
 
     pygame.display.flip()
