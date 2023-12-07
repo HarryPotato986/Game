@@ -1,9 +1,8 @@
 import math
 
 import pygame
-from classes.CollisionBox import CollisionBox
 from classes.Entities.BaseEntity import BaseEntity
-from classes.WeaponItem import WeaponItem
+from classes.Item.WeaponItem import WeaponItem
 
 
 class Character(BaseEntity):
@@ -25,8 +24,11 @@ class Character(BaseEntity):
                               self.collisionBox.baseRect.centery-(self.weapon.weaponRange * math.sin(math.radians(i)))))
         self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
 
-    def inputHandler(self, keys, dt):
+    def ticker(self, keys, dt):
         self.__movement(keys, dt)
+        self.draw()
+        if isinstance(self.weapon, WeaponItem):
+            self.weapon.ticker()
 
     def __movement(self, keys, dt):
         if keys[pygame.K_w]:
