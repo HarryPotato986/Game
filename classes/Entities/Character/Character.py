@@ -2,6 +2,7 @@ import math
 
 import pygame
 from classes.Entities.BaseEntity import BaseEntity
+from classes.Item.RangedWeaponItem import RangedWeaponItem
 from classes.Item.WeaponItem import WeaponItem
 
 
@@ -28,7 +29,7 @@ class Character(BaseEntity):
         self.__movement(keys, dt)
         self.draw()
         if isinstance(self.weapon, WeaponItem):
-            self.weapon.ticker()
+            self.weapon.ticker(self.surface)
 
     def __movement(self, keys, dt):
         if keys[pygame.K_w]:

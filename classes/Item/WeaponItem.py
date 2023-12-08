@@ -8,8 +8,8 @@ from classes.Entities.BaseEntity import BaseEntity
 
 class WeaponItem(BaseItem):
 
-    def __init__(self, ResourceLocation, texture, itemName, damage, weaponRange, knockback, weaponCooldown):
-        super().__init__(ResourceLocation, texture, itemName)
+    def __init__(self, resourceLocation, texture, itemName, damage, weaponRange, knockback, weaponCooldown):
+        super().__init__(resourceLocation, texture, itemName)
         self.damage = damage
         self.weaponRange = weaponRange
         self.knockback = knockback
@@ -17,7 +17,7 @@ class WeaponItem(BaseItem):
         self.weaponCooldownTimer = 0
 
 
-    def ticker(self):
+    def ticker(self, surface):
         if self.weaponCooldownTimer > 0:
             self.weaponCooldownTimer -= 1
 

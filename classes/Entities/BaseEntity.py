@@ -3,6 +3,7 @@ import pygame.transform
 from classes.BaseObject import BaseObject
 from classes.CollisionBox import CollisionBox
 from classes.Entities.EntityTextureHandler import EntityTextureHandler
+from classes.Projectile import Projectile
 
 
 class BaseEntity(BaseObject):
@@ -74,7 +75,7 @@ class BaseEntity(BaseObject):
         if entityRect.top < 0:
             entityRect.top = 0
         for otherBox in CollisionBox.activeBoxs:
-            if otherBox != self.collisionBox and entityRect.colliderect(otherBox.baseRect):
+            if otherBox != self.collisionBox and not isinstance(otherBox.boxOf, Projectile) and entityRect.colliderect(otherBox.baseRect):
                 if abs(otherBox.baseRect.top - entityRect.bottom) < collisionTolerance:
                     entityRect.bottom = otherBox.baseRect.top
                 if abs(otherBox.baseRect.bottom - entityRect.top) < collisionTolerance:
