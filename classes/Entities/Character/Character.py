@@ -8,25 +8,27 @@ from classes.Item.WeaponItem import WeaponItem
 
 class Character(BaseEntity):
 
-    def __init__(self, surface, x, y, resourceLocation, textures, scale, name, weapon, maxHealth):
-        super().__init__(surface, x, y, resourceLocation, textures, scale, name, weapon, maxHealth)
+    def __init__(self, surface, x, y, resourceLocation, textures, scale, name, meleeWeapon, rangedWeapon, maxHealth):
+        super().__init__(surface, x, y, resourceLocation, textures, scale, name, meleeWeapon, maxHealth)
+        self.meleeWeapon = meleeWeapon
+        self.rangedWeapon = rangedWeapon
 
 
     def draw(self):
-        if isinstance(self.weapon, RangedWeaponItem):
+        if isinstance(self.activeWeapon, RangedWeaponItem):
             if self.facing == 'U':
                 pygame.draw.line(self.surface, "red", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
-                                 (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery - self.weapon.weaponRange))
+                                 (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery - self.activeWeapon.weaponRange))
             elif self.facing == 'D':
                 pygame.draw.line(self.surface, "red", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
-                                 (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery + self.weapon.weaponRange))
+                                 (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery + self.activeWeapon.weaponRange))
             elif self.facing == 'L':
                 pygame.draw.line(self.surface, "red", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
-                                 (self.collisionBox.baseRect.centerx - self.weapon.weaponRange, self.collisionBox.baseRect.centery))
+                                 (self.collisionBox.baseRect.centerx - self.activeWeapon.weaponRange, self.collisionBox.baseRect.centery))
             elif self.facing == 'R':
                 pygame.draw.line(self.surface, "red", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
-                                 (self.collisionBox.baseRect.centerx + self.weapon.weaponRange, self.collisionBox.baseRect.centery))
-        elif isinstance(self.weapon, WeaponItem):
+                                 (self.collisionBox.baseRect.centerx + self.activeWeapon.weaponRange, self.collisionBox.baseRect.centery))
+        elif isinstance(self.activeWeapon, WeaponItem):
             for i in range(-45, 50, 5):
                 if self.facing == 'U':
                     i += 90
@@ -35,13 +37,13 @@ class Character(BaseEntity):
                 elif self.facing == 'L':
                     i += 180
                 pygame.draw.line(self.surface, "red", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
-                                 (self.collisionBox.baseRect.centerx+(self.weapon.weaponRange * math.cos(math.radians(i))),
-                                  self.collisionBox.baseRect.centery-(self.weapon.weaponRange * math.sin(math.radians(i)))))
+                                 (self.collisionBox.baseRect.centerx+(self.activeWeapon.weaponRange * math.cos(math.radians(i))),
+                                  self.collisionBox.baseRect.centery-(self.activeWeapon.weaponRange * math.sin(math.radians(i)))))
         self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
 
     def ticker(self, keys, dt):
-        if isinstance(self.weapon, WeaponItem):
-            self.weapon.ticker(self.surface, self)
+        self.meleeWeapon.ticker(self.surface, self)
+        self.rangedWeapon.ticker(self.surface, self)
         self.__movement(keys, dt)
         self.draw()
 
@@ -118,5 +120,11 @@ class Character(BaseEntity):
 
     def attack(self, event):
         if event.key == pygame.K_e:
-            if isinstance(self.weapon, WeaponItem):
-                self.weapon.attack(self.collisionBox, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
+            if isinstance(self.activeWeapon, WeaponItem):
+                self.activeWeapon.attack(self.collisionBox, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
+
+    def changeActiveSlot(self, event):
+        if event.key == pygame.K_1:
+            self.activeWeapon = self.meleeWeapon
+        elif event.key == pygame.K_2:
+            self.activeWeapon = self.rangedWeapon

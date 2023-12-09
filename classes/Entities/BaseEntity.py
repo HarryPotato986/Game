@@ -15,7 +15,7 @@ class BaseEntity(BaseObject):
         self.walkAnimationTimer = 15
         self.deathAnimationTimer = None
         self.textureRotation = 0
-        self.weapon = weapon
+        self.activeWeapon = weapon
         self.facing = 'D'
         self.name = name
         self.maxHealth = maxHealth
