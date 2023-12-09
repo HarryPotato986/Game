@@ -11,6 +11,10 @@ class CollisionBox:
         CollisionBox.activeBoxs.append(self)
 
 
+    def resize(self, width, height):
+        self.baseRect.width = width
+        self.baseRect.height = height
+
     def activate(self):
         if self not in CollisionBox.activeBoxs:
             CollisionBox.activeBoxs.append(self)

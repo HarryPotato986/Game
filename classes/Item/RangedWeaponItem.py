@@ -10,13 +10,14 @@ class RangedWeaponItem(WeaponItem):
         self.activeProjectiles = []
 
 
-    def ticker(self, surface):
+    def ticker(self, surface, holder):
         if self.weaponCooldownTimer > 0:
             self.weaponCooldownTimer -= 1
         for projectile in self.activeProjectiles:
-            projectile.ticker(surface)
+            projectile.ticker(surface, self, holder)
 
     def attack(self, userCollisionBox, userX, userY, facing):
         if self.weaponCooldownTimer == 0:
-            newProjectile = Projectile(self.resourceLocation + '/' + "projectile_textures", self.projectileTexture, 20, self.damage, facing, self.weaponRange, userX, userY)
+            newProjectile = Projectile(self.resourceLocation + '/' + "projectile_textures", self.projectileTexture, 10, self.damage, self.knockback, facing, self.weaponRange, userX, userY)
             self.activeProjectiles.append(newProjectile)
+            self.weaponCooldownTimer = self.weaponCooldown

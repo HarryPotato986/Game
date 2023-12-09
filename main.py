@@ -14,6 +14,9 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
+roomTexture = pygame.image.load("assets/room_textures/Room number 1.png")
+roomTexture = pygame.transform.scale_by(roomTexture, .75)
+
 characterAssets = ["back profile.png", "right-profile-1-(new).png", "left-profile-1-(new).png", "front profile.png",
                    ["back profile left walk.png", "back profile right walk.png"], ["right-profile-walk-1-(newer).png", "right-profile-walk-2-(newer).png"],
                    ["left-profile-walk-2-(newer).png", "left-profile-walk-1-(newer).png"], ["front profile left walk.png", "front profile right walk.png"]]
@@ -37,6 +40,7 @@ testEnemy = BaseEnemy(screen, 600, 50, "assets/small_goblin_textures", smallGobl
 while running:
 
     screen.fill("black")
+    #screen.blit(roomTexture, (0, 0, 1200, 900))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

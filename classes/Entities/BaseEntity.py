@@ -3,7 +3,7 @@ import pygame.transform
 from classes.BaseObject import BaseObject
 from classes.CollisionBox import CollisionBox
 from classes.Entities.EntityTextureHandler import EntityTextureHandler
-from classes.Projectile import Projectile
+
 
 
 class BaseEntity(BaseObject):
@@ -65,6 +65,7 @@ class BaseEntity(BaseObject):
         self.deathAnimationTimer = 240
 
     def checkCollisions(self, collisionTolerance):
+        from classes.Projectile import Projectile
         entityRect = self.collisionBox.baseRect
         if entityRect.right > self.surface.get_width():
             entityRect.right = self.surface.get_width()

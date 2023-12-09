@@ -17,7 +17,7 @@ class WeaponItem(BaseItem):
         self.weaponCooldownTimer = 0
 
 
-    def ticker(self, surface):
+    def ticker(self, surface, holder):
         if self.weaponCooldownTimer > 0:
             self.weaponCooldownTimer -= 1
 
