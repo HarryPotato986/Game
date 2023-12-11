@@ -7,8 +7,8 @@ from classes.Entities.BaseEntity import BaseEntity
 
 class Projectile:
 
-    def __init__(self, ResourceLocation, texture, speed, damage, knockback, direction, projectileRange, originX, originY):
-        self.texture = pygame.image.load(ResourceLocation + '/' + texture)
+    def __init__(self, resourceLocation, texture, speed, damage, knockback, direction, projectileRange, originX, originY):
+        self.texture = pygame.image.load(resourceLocation + '/' + texture)
         self.texture = pygame.transform.scale_by(self.texture, .5)
         self.collisionBox = CollisionBox(originX - (self.texture.get_width()/2), originY - (self.texture.get_height()/2), self.texture.get_width(), self.texture.get_height(), self)
         self.speed = speed

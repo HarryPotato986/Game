@@ -21,6 +21,7 @@ class BaseEntity(BaseObject):
         self.maxHealth = maxHealth
         self.health = maxHealth
         self.visible = True
+        self.activeThrowable = []
 
 
     def draw(self):

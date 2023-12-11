@@ -3,15 +3,17 @@ import math
 import pygame
 from classes.Entities.BaseEntity import BaseEntity
 from classes.Item.RangedWeaponItem import RangedWeaponItem
+from classes.Item.SingleUseThrowable import SingleUseThrowable
 from classes.Item.WeaponItem import WeaponItem
 
 
 class Character(BaseEntity):
 
-    def __init__(self, surface, x, y, resourceLocation, textures, scale, name, meleeWeapon, rangedWeapon, maxHealth):
+    def __init__(self, surface, x, y, resourceLocation, textures, scale, name, meleeWeapon, rangedWeapon, singleUseItem, maxHealth):
         super().__init__(surface, x, y, resourceLocation, textures, scale, name, meleeWeapon, maxHealth)
         self.meleeWeapon = meleeWeapon
         self.rangedWeapon = rangedWeapon
+        self.singleUseSlot = singleUseItem
 
 
     def draw(self):
@@ -44,6 +46,7 @@ class Character(BaseEntity):
     def ticker(self, keys, dt):
         self.meleeWeapon.ticker(self.surface, self)
         self.rangedWeapon.ticker(self.surface, self)
+        self.singleUseSlot.ticker(self.surface)
         self.__movement(keys, dt)
         self.draw()
 
@@ -122,6 +125,8 @@ class Character(BaseEntity):
         if event.key == pygame.K_e:
             if isinstance(self.activeWeapon, WeaponItem):
                 self.activeWeapon.attack(self.collisionBox, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
+            elif isinstance(self.activeWeapon, SingleUseThrowable):
+                self.activeWeapon.throw(self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self)
 
     def changeActiveSlot(self, event):
         if event.key == pygame.K_1:

@@ -29,7 +29,7 @@ allFiller = ["filler.png", "filler.png", "filler.png", "filler.png",
              ["filler.png", "filler.png"], ["filler.png", "filler.png"],
              ["filler.png", "filler.png"], ["filler.png", "filler.png"]]
 
-character = Character(screen, 600, 450, "assets/character_textures", characterAssets, 0.5, "character", copy.deepcopy(ItemInit.testSword), copy.deepcopy(ItemInit.testBow), 100)
+character = Character(screen, 600, 450, "assets/character_textures", characterAssets, 0.5, "character", copy.deepcopy(ItemInit.testSword), copy.deepcopy(ItemInit.testBow), copy.deepcopy(ItemInit.testSingleUse), 100)
 testRect = BaseObject(screen, 200, 200, 100, 100, "green")
 testRect2 = BaseObject(screen, 750, 500, 80, 200, "blue")
 testRect3 = BaseObject(screen, 200, 700, 50, 50, "yellow")
