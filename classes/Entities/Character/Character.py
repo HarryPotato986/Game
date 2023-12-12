@@ -3,7 +3,7 @@ import math
 import pygame
 from classes.Entities.BaseEntity import BaseEntity
 from classes.Item.RangedWeaponItem import RangedWeaponItem
-from classes.Item.SingleUseThrowable import SingleUseThrowable
+from classes.Item.ThrowableWeaponItem import ThrowableWeaponItem
 from classes.Item.WeaponItem import WeaponItem
 
 
@@ -46,7 +46,9 @@ class Character(BaseEntity):
     def ticker(self, keys, dt):
         self.meleeWeapon.ticker(self.surface, self)
         self.rangedWeapon.ticker(self.surface, self)
-        self.singleUseSlot.ticker(self.surface)
+        self.singleUseSlot.ticker(self.surface, self)
+        for throwable in self.activeThrowables:
+            throwable.ticker(self.surface)
         self.__movement(keys, dt)
         self.draw()
 
@@ -123,13 +125,13 @@ class Character(BaseEntity):
 
     def attack(self, event):
         if event.key == pygame.K_e:
-            if isinstance(self.activeWeapon, WeaponItem):
+            if isinstance(self.activeWeapon, WeaponItem) or isinstance(self.activeWeapon, ThrowableWeaponItem):
                 self.activeWeapon.attack(self.collisionBox, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
-            elif isinstance(self.activeWeapon, SingleUseThrowable):
-                self.activeWeapon.throw(self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self)
 
     def changeActiveSlot(self, event):
         if event.key == pygame.K_1:
             self.activeWeapon = self.meleeWeapon
         elif event.key == pygame.K_2:
             self.activeWeapon = self.rangedWeapon
+        elif event.key == pygame.K_3:
+            self.activeWeapon = self.singleUseSlot

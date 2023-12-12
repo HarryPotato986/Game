@@ -21,7 +21,7 @@ class BaseEntity(BaseObject):
         self.maxHealth = maxHealth
         self.health = maxHealth
         self.visible = True
-        self.activeThrowable = []
+        self.activeThrowables = []
 
 
     def draw(self):
@@ -67,6 +67,7 @@ class BaseEntity(BaseObject):
 
     def checkCollisions(self, collisionTolerance):
         from classes.Projectile import Projectile
+        from classes.Item.SingleUseThrowable import SingleUseThrowable
         entityRect = self.collisionBox.baseRect
         if entityRect.right > self.surface.get_width():
             entityRect.right = self.surface.get_width()
@@ -77,7 +78,7 @@ class BaseEntity(BaseObject):
         if entityRect.top < 0:
             entityRect.top = 0
         for otherBox in CollisionBox.activeBoxs:
-            if otherBox != self.collisionBox and not isinstance(otherBox.boxOf, Projectile) and entityRect.colliderect(otherBox.baseRect):
+            if otherBox != self.collisionBox and not isinstance(otherBox.boxOf, Projectile) and not isinstance(otherBox.boxOf, SingleUseThrowable) and entityRect.colliderect(otherBox.baseRect):
                 if abs(otherBox.baseRect.top - entityRect.bottom) < collisionTolerance:
                     entityRect.bottom = otherBox.baseRect.top
                 if abs(otherBox.baseRect.bottom - entityRect.top) < collisionTolerance:
