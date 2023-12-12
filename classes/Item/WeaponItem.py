@@ -4,6 +4,7 @@ import math
 from classes.CollisionBox import CollisionBox
 from classes.Item.BaseItem import BaseItem
 from classes.Entities.BaseEntity import BaseEntity
+from classes.Item.SingleUseThrowable import SingleUseThrowable
 from classes.Projectile import Projectile
 
 
@@ -26,7 +27,7 @@ class WeaponItem(BaseItem):
         if self.weaponCooldownTimer == 0:
             hits = []
             for boxs in CollisionBox.activeBoxs:
-                if boxs != userCollisionBox and not isinstance(boxs.boxOf, Projectile):
+                if boxs != userCollisionBox and not isinstance(boxs.boxOf, (Projectile, SingleUseThrowable)):
                     for i in range(-45, 50, 5):
                         if facing == 'U':
                             i += 90

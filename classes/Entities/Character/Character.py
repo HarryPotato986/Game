@@ -48,7 +48,7 @@ class Character(BaseEntity):
         self.rangedWeapon.ticker(self.surface, self)
         self.singleUseSlot.ticker(self.surface, self)
         for throwable in self.activeThrowables:
-            throwable.ticker(self.surface)
+            throwable.ticker(self.surface, self)
         self.__movement(keys, dt)
         self.draw()
 

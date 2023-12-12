@@ -14,6 +14,6 @@ class ThrowableWeaponItem(RangedWeaponItem):
 
     def attack(self, userCollisionBox, userX, userY, facing):
         if self.weaponCooldownTimer == 0:
-            newProjectile = SingleUseThrowable(self.resourceLocation + '/' + "projectile_textures", self.projectileTexture, "temp", userX, userY)
+            newProjectile = SingleUseThrowable(self.resourceLocation + '/' + "projectile_textures", self.projectileTexture, facing, self.weaponRange, userX, userY)
             userCollisionBox.boxOf.activeThrowables.append(newProjectile)
             self.weaponCooldownTimer = self.weaponCooldown
