@@ -7,4 +7,4 @@ testSword = WeaponItem("assets/item_textures", "test sword.png", "test sword", 1
 
 testBow = RangedWeaponItem("assets/item_textures", "test bow.png", "test bow", 15, 400, 10, 60, "test projectile 1.png")
 
-testSingleUse = ThrowableWeaponItem("assets/item_textures", "test single use.png", "test single use", 15, 400, 10, 0, "test single use.png")
+testSingleUse = ThrowableWeaponItem("assets/item_textures", "test single use.png", "test single use", 15, 400, 50, 10, 0, "test single use.png")

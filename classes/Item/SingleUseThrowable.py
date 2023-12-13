@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 from classes.BaseObject import BaseObject
@@ -8,12 +10,15 @@ from classes.Projectile import Projectile
 
 class SingleUseThrowable:
 
-    def __init__(self, resourceLocation, texture, direction, throwRange, originX, originY):
+    def __init__(self, resourceLocation, texture, damage, direction, throwRange, AOERadius, knockback, originX, originY):
         self.texture = pygame.image.load(resourceLocation + '/' + texture)
         self.texture = pygame.transform.scale_by(self.texture, .5)
         self.collisionBox = CollisionBox(originX - (self.texture.get_width()/2), originY - (self.texture.get_height()/2) - 1, self.texture.get_width(), self.texture.get_height(), self)
+        self.damage = damage
         self.throwRange = throwRange
         self.direction = direction
+        self.AOERadius = AOERadius
+        self.knockback = knockback
         self.originX = originX
         self.originY = originY
         self.visible = True
@@ -22,23 +27,6 @@ class SingleUseThrowable:
         self.dx = 10
         self.animationDX = 10
         self.animationX = originX
-        '''if direction == 'U':
-            self.dy = -speed
-            self.texture = pygame.transform.rotate(self.texture, 90)
-            self.collisionBox.resize(self.texture.get_width(), self.texture.get_height())
-            self.collisionBox.baseRect.centerx = originX
-            self.collisionBox.baseRect.centery = originY
-        elif direction == 'D':
-            self.dy = speed
-            self.texture = pygame.transform.rotate(self.texture, -90)
-            self.collisionBox.resize(self.texture.get_width(), self.texture.get_height())
-            self.collisionBox.baseRect.centerx = originX
-            self.collisionBox.baseRect.centery = originY
-        elif direction == 'L':
-            self.dx = -speed
-            self.texture = pygame.transform.rotate(self.texture, 180)
-        elif direction == 'R':
-            self.dx = speed'''
 
 
     def ticker(self, surface, holder):
@@ -60,17 +48,17 @@ class SingleUseThrowable:
                 self.animationDX = 0
 
         entityRect = self.collisionBox.baseRect
-        collisionTolerance = self.dx + 1
+        collisionTolerance = self.dx + 10
         if entityRect.right > surface.get_width():
             entityRect.right = surface.get_width()
             self.dx = 0
-        if entityRect.left < 0:
+        elif entityRect.left < 0:
             entityRect.left = 0
             self.dx = 0
-        if entityRect.bottom > surface.get_height():
+        elif entityRect.bottom > surface.get_height():
             entityRect.bottom = surface.get_height()
             self.dx = 0
-        if entityRect.top < 0:
+        elif entityRect.top < 0:
             entityRect.top = 0
             self.dx = 0
         for otherBox in CollisionBox.activeBoxs:
@@ -79,6 +67,7 @@ class SingleUseThrowable:
                     if abs(otherBox.baseRect.top - entityRect.bottom) < collisionTolerance:
                         entityRect.bottom = otherBox.baseRect.top
                         self.dx = 0
+                        self.animationDX = 0
                     if abs(otherBox.baseRect.bottom - entityRect.top) < collisionTolerance:
                         entityRect.top = otherBox.baseRect.bottom
                         self.dx = 0
@@ -91,4 +80,34 @@ class SingleUseThrowable:
 
         if self.visible:
             surface.blit(self.texture, self.collisionBox.baseRect)
+            for i in range(0, 365, 5):
+                pygame.draw.line(surface, "blue", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
+                                 (self.collisionBox.baseRect.centerx+(self.AOERadius * math.cos(math.radians(i))),
+                                  self.collisionBox.baseRect.centery-(self.AOERadius * math.sin(math.radians(i)))))
 
+        if self.dx == 0 and self.animationDX == 0:
+            hits = []
+            x = self.collisionBox.baseRect.centerx
+            y = self.collisionBox.baseRect.centery
+            for boxs in CollisionBox.activeBoxs:
+                if boxs != holder.collisionBox and not isinstance(boxs.boxOf, (Projectile, SingleUseThrowable)):
+                    for i in range(0, 365, 5):
+                        if i >= 315 or i <= 45:
+                            facing = 'R'
+                        elif i >= 135 and i <= 225:
+                            facing = 'L'
+                        elif i > 45 and i < 135:
+                            facing = 'U'
+                        elif i > 225 and i < 315:
+                            facing = 'D'
+                        else:
+                            facing = 'R'
+                        if boxs.baseRect.clipline(x, y, x+(self.AOERadius * math.cos(math.radians(i))), y-(self.AOERadius * math.sin(math.radians(i)))) and boxs.baseRect not in hits:
+                            hits.append(boxs.baseRect)
+                            if isinstance(boxs.boxOf, BaseEntity):
+                                boxs.boxOf.hit(self.damage, facing, self.knockback)
+                            else:
+                                print("hit")
+
+            self.collisionBox.deactivate()
+            holder.activeThrowables.remove(self)
