@@ -96,6 +96,12 @@ class Projectile:
                             entityRect.right = otherBox.baseRect.left
                             self.dx = 0
                             self.dy = 0
+        elif self.dx == 0 and self.dy == 0:
+            for otherBox in CollisionBox.activeBoxs:
+                if otherBox == holder.collisionBox:
+                    self.collisionBox.deactivate()
+                    parentWeapon.activeProjectiles.remove(self)
+                    print("collected")
 
         surface.blit(self.texture, self.collisionBox.baseRect)
 

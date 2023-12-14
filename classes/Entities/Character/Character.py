@@ -44,9 +44,13 @@ class Character(BaseEntity):
         self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
 
     def ticker(self, keys, dt):
-        self.meleeWeapon.ticker(self.surface, self)
-        self.rangedWeapon.ticker(self.surface, self)
-        self.singleUseSlot.ticker(self.surface, self)
+        if isinstance(self.meleeWeapon, WeaponItem):
+            self.meleeWeapon.ticker(self.surface, self)
+        if isinstance(self.rangedWeapon, WeaponItem):
+            self.rangedWeapon.ticker(self.surface, self)
+        if isinstance(self.singleUseSlot, list):
+            if isinstance(self.singleUseSlot[0], ThrowableWeaponItem):
+                self.singleUseSlot[0].ticker(self.surface, self)
         for throwable in self.activeThrowables:
             throwable.ticker(self.surface, self)
         self.__movement(keys, dt)
@@ -125,7 +129,13 @@ class Character(BaseEntity):
 
     def attack(self, event):
         if event.key == pygame.K_e:
-            if isinstance(self.activeWeapon, WeaponItem) or isinstance(self.activeWeapon, ThrowableWeaponItem):
+            if isinstance(self.activeWeapon, ThrowableWeaponItem):
+                self.activeWeapon.attack(self.collisionBox, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
+                self.singleUseSlot[1] -= 1
+                if self.singleUseSlot[1] == 0:
+                    self.singleUseSlot = None
+                    self.activeWeapon = None
+            elif isinstance(self.activeWeapon, WeaponItem):
                 self.activeWeapon.attack(self.collisionBox, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
 
     def changeActiveSlot(self, event):
@@ -134,4 +144,7 @@ class Character(BaseEntity):
         elif event.key == pygame.K_2:
             self.activeWeapon = self.rangedWeapon
         elif event.key == pygame.K_3:
-            self.activeWeapon = self.singleUseSlot
+            if isinstance(self.singleUseSlot, list):
+                self.activeWeapon = self.singleUseSlot[0]
+            else:
+                self.activeWeapon = self.singleUseSlot

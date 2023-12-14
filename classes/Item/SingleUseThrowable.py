@@ -38,11 +38,25 @@ class SingleUseThrowable:
             else:
                 self.dx = 0
                 self.animationDX = 0
-        if self.direction == 'L':
+        elif self.direction == 'L':
             if abs(self.animationX - self.originX) <= self.throwRange:
                 self.collisionBox.baseRect.x -= self.dx
                 self.animationX -= self.animationDX
                 self.collisionBox.baseRect.y = self.originY + (0.002*((self.animationX-self.originX)*(self.animationX-(self.originX-self.throwRange))))
+            else:
+                self.dx = 0
+                self.animationDX = 0
+        elif self.direction == 'U':
+            if abs(self.animationX - self.originX) <= self.throwRange:
+                self.collisionBox.baseRect.y -= self.dx
+                self.animationX -= self.animationDX
+            else:
+                self.dx = 0
+                self.animationDX = 0
+        elif self.direction == 'D':
+            if abs(self.animationX - self.originX) <= self.throwRange:
+                self.collisionBox.baseRect.y += self.dx
+                self.animationX += self.animationDX
             else:
                 self.dx = 0
                 self.animationDX = 0
@@ -67,7 +81,8 @@ class SingleUseThrowable:
                     if abs(otherBox.baseRect.top - entityRect.bottom) < collisionTolerance:
                         entityRect.bottom = otherBox.baseRect.top
                         self.dx = 0
-                        self.animationDX = 0
+                        if self.direction == 'R' or self.direction == 'L':
+                            self.animationDX = 0
                     if abs(otherBox.baseRect.bottom - entityRect.top) < collisionTolerance:
                         entityRect.top = otherBox.baseRect.bottom
                         self.dx = 0
