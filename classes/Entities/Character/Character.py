@@ -46,8 +46,9 @@ class Character(BaseEntity):
     def ticker(self, keys, dt):
         if isinstance(self.meleeWeapon, WeaponItem):
             self.meleeWeapon.ticker(self.surface, self)
-        if isinstance(self.rangedWeapon, WeaponItem):
-            self.rangedWeapon.ticker(self.surface, self)
+        if isinstance(self.rangedWeapon, list):
+            if isinstance(self.rangedWeapon[0], WeaponItem):
+                self.rangedWeapon[0].ticker(self.surface, self)
         if isinstance(self.singleUseSlot, list):
             if isinstance(self.singleUseSlot[0], ThrowableWeaponItem):
                 self.singleUseSlot[0].ticker(self.surface, self)
@@ -135,6 +136,8 @@ class Character(BaseEntity):
                 if self.singleUseSlot[1] == 0:
                     self.singleUseSlot = None
                     self.activeWeapon = None
+            elif isinstance(self.activeWeapon, RangedWeaponItem):
+                self.activeWeapon.attack(self, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
             elif isinstance(self.activeWeapon, WeaponItem):
                 self.activeWeapon.attack(self.collisionBox, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
 
@@ -142,7 +145,10 @@ class Character(BaseEntity):
         if event.key == pygame.K_1:
             self.activeWeapon = self.meleeWeapon
         elif event.key == pygame.K_2:
-            self.activeWeapon = self.rangedWeapon
+            if isinstance(self.rangedWeapon, list):
+                self.activeWeapon = self.rangedWeapon[0]
+            else:
+                self.activeWeapon = self.rangedWeapon
         elif event.key == pygame.K_3:
             if isinstance(self.singleUseSlot, list):
                 self.activeWeapon = self.singleUseSlot[0]
