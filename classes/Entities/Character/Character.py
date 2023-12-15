@@ -14,6 +14,8 @@ class Character(BaseEntity):
         self.meleeWeapon = meleeWeapon
         self.rangedWeapon = rangedWeapon
         self.singleUseSlot = singleUseItem
+        self.meleeWeaponTexture = pygame.image.load(meleeWeapon.resourceLocation + '/' + meleeWeapon.texture)
+        self.meleeWeaponTexture = pygame.transform.scale_by(self.meleeWeaponTexture, 65/96)
 
 
     def draw(self):
@@ -42,6 +44,14 @@ class Character(BaseEntity):
                                  (self.collisionBox.baseRect.centerx+(self.activeWeapon.weaponRange * math.cos(math.radians(i))),
                                   self.collisionBox.baseRect.centery-(self.activeWeapon.weaponRange * math.sin(math.radians(i)))))
         self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
+        self.drawInventory()
+
+    def drawInventory(self):
+        meleeSlot = pygame.draw.rect(self.surface, "light grey", (20, 20, 75, 75), border_radius=12)
+        pygame.draw.rect(self.surface, "light grey", (115, 20, 75, 75), border_radius=12)
+        pygame.draw.rect(self.surface, "light grey", (210, 20, 75, 75), border_radius=12)
+
+        self.surface.blit(self.meleeWeaponTexture, meleeSlot)
 
     def ticker(self, keys, dt):
         if isinstance(self.meleeWeapon, WeaponItem):
