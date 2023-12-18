@@ -16,6 +16,12 @@ class Character(BaseEntity):
         self.singleUseSlot = singleUseItem
         self.meleeWeaponTexture = pygame.image.load(meleeWeapon.resourceLocation + '/' + meleeWeapon.texture)
         self.meleeWeaponTexture = pygame.transform.scale_by(self.meleeWeaponTexture, 65/96)
+        self.rangedWeaponTexture = pygame.image.load(rangedWeapon[0].resourceLocation + '/' + rangedWeapon[0].texture)
+        self.rangedWeaponTexture = pygame.transform.scale_by(self.rangedWeaponTexture, 65/96)
+        self.singleUseWeaponTexture = pygame.image.load(singleUseItem[0].resourceLocation + '/' + singleUseItem[0].texture)
+        self.singleUseWeaponTexture = pygame.transform.scale_by(self.singleUseWeaponTexture, 65/50)
+
+        self.inventoryFont = pygame.font.SysFont("arial.ttf", 60)
 
 
     def draw(self):
@@ -44,14 +50,47 @@ class Character(BaseEntity):
                                  (self.collisionBox.baseRect.centerx+(self.activeWeapon.weaponRange * math.cos(math.radians(i))),
                                   self.collisionBox.baseRect.centery-(self.activeWeapon.weaponRange * math.sin(math.radians(i)))))
         self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
-        self.drawInventory()
+        self.drawHotbar()
 
-    def drawInventory(self):
+    def refreshItemTextures(self):
+        self.meleeWeaponTexture = pygame.image.load(self.meleeWeapon.resourceLocation + '/' + self.meleeWeapon.texture)
+        self.meleeWeaponTexture = pygame.transform.scale_by(self.meleeWeaponTexture, 65/self.meleeWeaponTexture.get_width())
+        self.rangedWeaponTexture = pygame.image.load(self.rangedWeapon[0].resourceLocation + '/' + self.rangedWeapon[0].texture)
+        self.rangedWeaponTexture = pygame.transform.scale_by(self.rangedWeaponTexture, 65/self.rangedWeaponTexture.get_width())
+        if isinstance(self.singleUseSlot, list):
+            self.singleUseWeaponTexture = pygame.image.load(self.singleUseSlot[0].resourceLocation + '/' + self.singleUseSlot[0].texture)
+            self.singleUseWeaponTexture = pygame.transform.scale_by(self.singleUseWeaponTexture, 65/self.singleUseWeaponTexture.get_width())
+        else:
+            self.singleUseWeaponTexture = None
+
+    def drawHotbar(self):
         meleeSlot = pygame.draw.rect(self.surface, "light grey", (20, 20, 75, 75), border_radius=12)
-        pygame.draw.rect(self.surface, "light grey", (115, 20, 75, 75), border_radius=12)
-        pygame.draw.rect(self.surface, "light grey", (210, 20, 75, 75), border_radius=12)
+        rangedSlot = pygame.draw.rect(self.surface, "light grey", (115, 20, 75, 75), border_radius=12)
+        singleUseSlot = pygame.draw.rect(self.surface, "light grey", (210, 20, 75, 75), border_radius=12)
 
-        self.surface.blit(self.meleeWeaponTexture, meleeSlot)
+        meleeItemRect = pygame.Rect(0, 0, 65, 65)
+        meleeItemRect.centerx = meleeSlot.centerx
+        meleeItemRect.centery = meleeSlot.centery
+        rangedItemRect = pygame.Rect(0, 0, 65, 65)
+        rangedItemRect.centerx = rangedSlot.centerx
+        rangedItemRect.centery = rangedSlot.centery
+        singleUseItemRect = pygame.Rect(0, 0, 65, 65)
+        singleUseItemRect.centerx = singleUseSlot.centerx
+        singleUseItemRect.centery = singleUseSlot.centery
+
+        rangedItemNum = self.inventoryFont.render(str(self.rangedWeapon[1]), True, "black")
+        if isinstance(self.singleUseSlot, list):
+            singleUseItemNum = self.inventoryFont.render(str(self.singleUseSlot[1]), True, "black")
+        else:
+            singleUseItemNum = None
+
+        self.surface.blit(self.meleeWeaponTexture, meleeItemRect)
+        self.surface.blit(self.rangedWeaponTexture, rangedItemRect)
+        self.surface.blit(rangedItemNum, (rangedItemRect.centerx + 10, rangedItemRect.centery))
+        if isinstance(self.singleUseWeaponTexture, pygame.surface.Surface):
+            self.surface.blit(self.singleUseWeaponTexture, singleUseItemRect)
+            if singleUseItemNum is not None:
+                self.surface.blit(singleUseItemNum, (singleUseItemRect.centerx + 10, singleUseItemRect.centery))
 
     def ticker(self, keys, dt):
         if isinstance(self.meleeWeapon, WeaponItem):
@@ -146,6 +185,7 @@ class Character(BaseEntity):
                 if self.singleUseSlot[1] == 0:
                     self.singleUseSlot = None
                     self.activeWeapon = None
+                    self.refreshItemTextures()
             elif isinstance(self.activeWeapon, RangedWeaponItem):
                 self.activeWeapon.attack(self, self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery, self.facing)
             elif isinstance(self.activeWeapon, WeaponItem):
