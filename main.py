@@ -2,7 +2,7 @@ import copy
 
 import pygame
 
-from Init import ItemInit
+from Init import ItemInit, RoomInit
 from classes.BaseObject import BaseObject
 from classes.Entities.Character.Character import Character
 from classes.Entities.Enemys.BaseEnemy import BaseEnemy
