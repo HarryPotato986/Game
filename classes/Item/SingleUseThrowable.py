@@ -6,6 +6,7 @@ from classes.BaseObject import BaseObject
 from classes.CollisionBox import CollisionBox
 from classes.Entities.BaseEntity import BaseEntity
 from classes.Projectile import Projectile
+from classes.Rooms.BaseRoom import BaseRoom
 
 
 class SingleUseThrowable:
@@ -77,7 +78,7 @@ class SingleUseThrowable:
             self.dx = 0
         for otherBox in CollisionBox.activeBoxs:
             if otherBox not in [self.collisionBox, holder.collisionBox] and not isinstance(otherBox.boxOf, (Projectile, SingleUseThrowable)) and entityRect.colliderect(otherBox.baseRect):
-                if isinstance(otherBox.boxOf, (BaseObject, BaseEntity)):
+                if isinstance(otherBox.boxOf, (BaseObject, BaseEntity, BaseRoom)):
                     if abs(otherBox.baseRect.top - entityRect.bottom) < collisionTolerance:
                         entityRect.bottom = otherBox.baseRect.top
                         self.dx = 0

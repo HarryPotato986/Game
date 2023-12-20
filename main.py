@@ -36,6 +36,8 @@ testRect3 = BaseObject(screen, 200, 700, 50, 50, "yellow")
 testRect4 = BaseObject(screen, 900, 200, 50, 50, 'purple')
 testEnemy = BaseEnemy(screen, 600, 50, "assets/small_goblin_textures", smallGoblinAssets, 0.5, "test enemy", copy.deepcopy(ItemInit.testSword), 100)
 
+testRoom = copy.deepcopy(RoomInit.testRoom)
+testRoom.activateCollisionBoxs()
 
 while running:
 

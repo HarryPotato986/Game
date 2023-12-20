@@ -3,6 +3,7 @@ import pygame
 from classes.BaseObject import BaseObject
 from classes.CollisionBox import CollisionBox
 from classes.Entities.BaseEntity import BaseEntity
+from classes.Rooms.BaseRoom import BaseRoom
 
 
 class Projectile:
@@ -79,7 +80,7 @@ class Projectile:
                         otherBox.boxOf.hit(self.damage, self.direction, self.knockback)
                         self.collisionBox.deactivate()
                         parentWeapon.activeProjectiles.remove(self)
-                    elif isinstance(otherBox.boxOf, BaseObject):
+                    elif isinstance(otherBox.boxOf, (BaseObject, BaseRoom)):
                         if abs(otherBox.baseRect.top - entityRect.bottom) < collisionTolerance:
                             entityRect.bottom = otherBox.baseRect.top
                             self.dx = 0
