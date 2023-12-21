@@ -3,7 +3,6 @@ import pygame.transform
 from classes.BaseObject import BaseObject
 from classes.CollisionBox import CollisionBox
 from classes.Entities.EntityTextureHandler import EntityTextureHandler
-from classes.Rooms.BaseRoom import BaseRoom
 
 
 class BaseEntity(BaseObject):

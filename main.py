@@ -6,6 +6,7 @@ from Init import ItemInit, RoomInit
 from classes.BaseObject import BaseObject
 from classes.Entities.Character.Character import Character
 from classes.Entities.Enemys.BaseEnemy import BaseEnemy
+from classes.Rooms.RoomRenderer import RoomRenderer
 
 pygame.init()
 screen = pygame.display.set_mode((1200, 900), pygame.SCALED)
@@ -40,10 +41,11 @@ testEnemy = BaseEnemy(screen, 600, 50, "assets/small_goblin_textures", smallGobl
 testRoom = copy.deepcopy(RoomInit.testRoom)
 testRoom.activateCollisionBoxs()
 
+roomRenderer = RoomRenderer(screen)
+
 while running:
 
     screen.fill("black")
-    #screen.blit(roomTexture, (0, 0, 1200, 900))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -59,6 +61,8 @@ while running:
                     screen = pygame.display.set_mode((1200, 900), pygame.SCALED)
                     fullscreen = False
 
+
+    roomRenderer.ticker(testRoom)
 
     testRect.draw()
     testRect2.draw()
