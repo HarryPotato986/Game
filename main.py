@@ -9,6 +9,7 @@ from classes.Entities.Enemys.BaseEnemy import BaseEnemy
 
 pygame.init()
 screen = pygame.display.set_mode((1200, 900), pygame.SCALED)
+fullscreen = False
 clock = pygame.time.Clock()
 
 running = True
@@ -45,11 +46,19 @@ while running:
     #screen.blit(roomTexture, (0, 0, 1200, 900))
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             running = False
         if event.type == pygame.KEYDOWN:
             character.attack(event)
             character.changeActiveSlot(event)
+            if event.key == pygame.K_F11:
+                if not fullscreen:
+                    screen = pygame.display.set_mode((1200, 900), pygame.SCALED | pygame.FULLSCREEN)
+                    fullscreen = True
+                elif fullscreen:
+                    screen = pygame.display.set_mode((1200, 900), pygame.SCALED)
+                    fullscreen = False
+
 
     testRect.draw()
     testRect2.draw()
