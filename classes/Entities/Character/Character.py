@@ -15,11 +15,11 @@ class Character(BaseEntity):
         self.rangedWeapon = rangedWeapon
         self.singleUseSlot = singleUseItem
         self.meleeWeaponTexture = pygame.image.load(meleeWeapon.resourceLocation + '/' + meleeWeapon.texture)
-        self.meleeWeaponTexture = pygame.transform.scale_by(self.meleeWeaponTexture, 65/96)
+        self.meleeWeaponTexture = pygame.transform.scale_by(self.meleeWeaponTexture, 65/self.meleeWeaponTexture.get_width())
         self.rangedWeaponTexture = pygame.image.load(rangedWeapon[0].resourceLocation + '/' + rangedWeapon[0].texture)
-        self.rangedWeaponTexture = pygame.transform.scale_by(self.rangedWeaponTexture, 65/96)
+        self.rangedWeaponTexture = pygame.transform.scale_by(self.rangedWeaponTexture, 65/self.rangedWeaponTexture.get_width())
         self.singleUseWeaponTexture = pygame.image.load(singleUseItem[0].resourceLocation + '/' + singleUseItem[0].texture)
-        self.singleUseWeaponTexture = pygame.transform.scale_by(self.singleUseWeaponTexture, 65/50)
+        self.singleUseWeaponTexture = pygame.transform.scale_by(self.singleUseWeaponTexture, 65/self.singleUseWeaponTexture.get_width())
 
         self.inventoryFont = pygame.font.SysFont("arial.ttf", 60)
 

@@ -22,7 +22,7 @@ class BaseRoom:
                 self.collisionBoxs.append(newBox)
         self.deactivateCollisionBoxs()
 
-        if isinstance(enemys, tuple):
+        if isinstance(enemys, tuple) and len(enemys) > 0:
             if isinstance(enemys[0], tuple):
                 for enemy in enemys:
                     enemy[0].collisionBox.baseRect.x = enemy[1][0]
