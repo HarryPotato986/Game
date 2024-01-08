@@ -39,8 +39,8 @@ testEnemy = BaseEnemy(screen, 600, 50, "assets/small_goblin_textures", smallGobl
 
 while running:
 
-    screen.fill("black")
-    #screen.blit(roomTexture, (0, 0, 1200, 900))
+    #screen.fill("black")
+    screen.blit(roomTexture, (0, 0, 1200, 900))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -53,7 +53,7 @@ while running:
     testRect2.draw()
     testRect3.draw()
     testRect4.draw()
-    testEnemy.draw()
+    testEnemy.ticker(character.collisionBox.baseRect.center)
 
     keys = pygame.key.get_pressed()
     character.ticker(keys, dt)
