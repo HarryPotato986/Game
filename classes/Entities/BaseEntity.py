@@ -7,6 +7,8 @@ from classes.Entities.EntityTextureHandler import EntityTextureHandler
 
 class BaseEntity(BaseObject):
 
+    hitbox_rect = None
+
     def __init__(self, surface, x, y, resourceLocation, textures, scale, name, weapon, maxHealth):
         self.textureHandler = EntityTextureHandler(resourceLocation, textures[0], textures[1], textures[2], textures[3], textures[4], textures[5], textures[6], textures[7], scale)
         super().__init__(surface, x, y, self.textureHandler.idleDown.get_width(), self.textureHandler.idleDown.get_height())
@@ -21,6 +23,8 @@ class BaseEntity(BaseObject):
         self.health = maxHealth
         self.visible = True
         self.activeThrowables = []
+
+
 
 
     def draw(self):

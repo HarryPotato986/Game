@@ -45,7 +45,8 @@ roomRenderer = RoomRenderer(screen)
 
 while running:
 
-    screen.fill("black")
+    #screen.fill("black")
+    screen.blit(roomTexture, (0, 0, 1200, 900))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -68,7 +69,7 @@ while running:
     testRect2.draw()
     testRect3.draw()
     testRect4.draw()
-    testEnemy.draw()
+    testEnemy.ticker(character.collisionBox.baseRect.center)
 
     keys = pygame.key.get_pressed()
     character.ticker(keys, dt)
