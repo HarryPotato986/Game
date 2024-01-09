@@ -25,7 +25,8 @@ class Character(BaseEntity):
 
 
     def draw(self):
-        if isinstance(self.activeWeapon, RangedWeaponItem):
+        #code below draws red lines to show aim and melee range
+        '''if isinstance(self.activeWeapon, RangedWeaponItem):
             if self.facing == 'U':
                 pygame.draw.line(self.surface, "red", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
                                  (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery - self.activeWeapon.weaponRange))
@@ -48,7 +49,7 @@ class Character(BaseEntity):
                     i += 180
                 pygame.draw.line(self.surface, "red", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
                                  (self.collisionBox.baseRect.centerx+(self.activeWeapon.weaponRange * math.cos(math.radians(i))),
-                                  self.collisionBox.baseRect.centery-(self.activeWeapon.weaponRange * math.sin(math.radians(i)))))
+                                  self.collisionBox.baseRect.centery-(self.activeWeapon.weaponRange * math.sin(math.radians(i)))))'''
         self.surface.blit(self.activeTexture, self.collisionBox.baseRect)
         self.drawHotbar()
 

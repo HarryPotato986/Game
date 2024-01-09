@@ -96,10 +96,11 @@ class SingleUseThrowable:
 
         if self.visible:
             surface.blit(self.texture, self.collisionBox.baseRect)
-            for i in range(0, 365, 5):
+            #code below draws lines to show AOE range
+            '''for i in range(0, 365, 5):
                 pygame.draw.line(surface, "blue", (self.collisionBox.baseRect.centerx, self.collisionBox.baseRect.centery),
                                  (self.collisionBox.baseRect.centerx+(self.AOERadius * math.cos(math.radians(i))),
-                                  self.collisionBox.baseRect.centery-(self.AOERadius * math.sin(math.radians(i)))))
+                                  self.collisionBox.baseRect.centery-(self.AOERadius * math.sin(math.radians(i)))))'''
 
         if self.dx == 0 and self.animationDX == 0:
             hits = []
